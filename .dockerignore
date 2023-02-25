@@ -1,0 +1,10 @@
+data
+front/node_modules
+
+.gitignore
+.gitattributes
+.github
+.git
+docker-compose.yml
+Makefile
+README.md

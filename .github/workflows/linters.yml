@@ -1,0 +1,55 @@
+name: Linters
+
+on:
+  - push
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt -r requirements.txt
+
+      - name: isort
+        if: always()
+        run: isort --check --diff backend
+
+      - name: black
+        if: always()
+        run: black --check --diff backend
+
+      - name: mypy
+        if: always()
+        run: mypy --namespace-packages backend
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./front
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+          cache-dependency-path: "./front/yarn.lock"
+
+      - name: Set up node dependencies
+        run: yarn install
+
+      - name: Check lint
+        run: yarn lint-check

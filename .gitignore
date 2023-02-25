@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# IDE configs
+.vscode/
+
+# database persistence
+data/mongo/
