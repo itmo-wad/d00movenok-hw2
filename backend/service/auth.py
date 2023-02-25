@@ -1,4 +1,3 @@
-import logging
 from typing import Any
 
 from argon2 import PasswordHasher  # type: ignore
@@ -7,7 +6,6 @@ from config import app_config  # type: ignore
 from db.mongo import AsyncIOMotorClient  # type: ignore
 from models.auth import UserInfo  # type: ignore
 
-logger = logging.getLogger("uvicorn")
 hasher = PasswordHasher()
 
 
@@ -38,7 +36,6 @@ async def find_user_by_login(
     login: str,
 ) -> UserInfo | None:
     result = await db[app_config.mongo_db].users.find_one({"login": login})
-    logger.info(result)
     if result is None:
         return None
 

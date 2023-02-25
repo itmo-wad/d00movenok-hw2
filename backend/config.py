@@ -43,6 +43,7 @@ class AppConfig(BaseSettings):
     mongo_db: str = Field(default="admin", env="MONGO_DB")
     mongo_min_conndection: int = Field(default=10, env="MONGO_MIN_CONNECTIONS")
     mongo_max_conndection: int = Field(default=50, env="MONGO_MAX_CONNECTIONS")
+    avatars_storage: str = Field(default="../data/avatars/", env="AVATARS_STORAGE")
     secret: str = Field(default=uuid.uuid4().hex, env="APP_SECRET")
     debug: bool = Field(default=False, env="DEBUG")
 

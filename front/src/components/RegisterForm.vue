@@ -33,7 +33,8 @@
 
   const router = useRouter();
 
-  const { isLoggedIn, profile } = storeToRefs(useAuth());
+  const authStore = useAuth();
+  const { isLoggedIn } = storeToRefs(authStore);
   async function signUp(event: SubmitEventPromise) {
     const results = await event;
     if (!results.valid) return;
@@ -43,7 +44,7 @@
     signup(login.value, password.value)
       .then((response) => {
         isLoggedIn.value = true;
-        profile.value = response.data;
+        authStore.profile = response.data;
         router.push({ name: 'Profile' });
       })
       .catch((e: AxiosError<Error>) => {

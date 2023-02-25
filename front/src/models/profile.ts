@@ -1,6 +1,6 @@
 export interface Profile {
   id: string;
   login: string;
-  avatar?: string;
+  avatar?: boolean;
   description?: string;
 }

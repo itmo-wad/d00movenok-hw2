@@ -1,8 +1,26 @@
+<script lang="ts" setup>
+  import { storeToRefs } from 'pinia';
+
+  import avatar from '@/assets/default_avatar.png';
+  import { useAuth } from '@/store/auth';
+
+  const authStore = useAuth();
+  const { cache } = storeToRefs(authStore);
+</script>
+
 <template>
   <v-app id="inspire">
     <v-app-bar flat>
       <v-container class="fill-height d-flex align-center">
-        <v-avatar class="me-10 ms-4" color="grey-darken-1" size="32"></v-avatar>
+        <v-avatar
+          class="me-10 ms-4"
+          size="32"
+          :image="
+            authStore.profile.avatar
+              ? `/api/profile/avatar?id=${authStore.profile.id}&cache=${cache}`
+              : avatar
+          "
+        ></v-avatar>
 
         <v-spacer></v-spacer>
 

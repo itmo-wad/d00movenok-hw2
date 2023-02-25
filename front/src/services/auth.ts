@@ -25,5 +25,5 @@ export function signup(
 }
 
 export function signout(): Promise<AxiosResponse<Message>> {
-  return http.post('/auth/signed');
+  return http.post('/auth/signout');
 }

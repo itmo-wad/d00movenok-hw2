@@ -7,12 +7,13 @@
   import { useAuth } from '@/store/auth';
 
   const router = useRouter();
-  const { isLoggedIn, profile } = storeToRefs(useAuth());
+  const authStore = useAuth();
+  const { isLoggedIn } = storeToRefs(authStore);
 
   onMounted(() => {
     getProfile().then((response) => {
       isLoggedIn.value = true;
-      profile.value = response.data;
+      authStore.profile = response.data;
       router.push({ name: 'Profile' });
     });
   });
