@@ -1,19 +1,28 @@
-// Composables
+import { storeToRefs } from 'pinia';
 import { createRouter, createWebHistory } from 'vue-router';
+
+import { useAuth } from '@/store/auth';
 
 const routes = [
   {
     path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: () => import('@/layouts/Centered.vue'),
     children: [
       {
-        path: '',
-        name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        path: '/',
+        name: 'Login',
+        component: () => import('@/views/Login.vue'),
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: () => import('@/layouts/Base.vue'),
+    children: [
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/Profile.vue'),
       },
     ],
   },
@@ -25,3 +34,19 @@ const router = createRouter({
 });
 
 export default router;
+
+// Dynamic title display
+router.beforeEach((to, from, next) => {
+  document.title = String(to.name);
+  next();
+});
+
+// Require auth
+router.beforeEach((to, from, next) => {
+  const { isLoggedIn } = storeToRefs(useAuth());
+  if (to.name !== 'Login' && !isLoggedIn.value) {
+    next({ name: 'Login' });
+  } else if (to.name === 'Login' && isLoggedIn.value) {
+    next({ name: 'Profile' });
+  } else next();
+});

@@ -7,9 +7,9 @@ services:
       dockerfile: ./docker/front/Dockerfile
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8000:80"
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider front:80/api/healthcheck || exit 1
+      test: wget --no-verbose --tries=1 --spider front:80/api/healthcheck/ || exit 1
       interval: 5s
       timeout: 5s
       retries: 5
@@ -21,11 +21,14 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
+    environment:
+      - MONGO_USER=root
+      - MONGO_PASS=replace_me
     volumes:
       - ./backend:/backend
     restart: unless-stopped
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider backend:8000/api/healthcheck || exit 1
+      test: wget --no-verbose --tries=1 --spider backend:8000/api/healthcheck/ || exit 1
       interval: 5s
       timeout: 5s
       retries: 5

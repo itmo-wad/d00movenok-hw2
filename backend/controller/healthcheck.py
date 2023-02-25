@@ -1,12 +1,8 @@
-from fastapi import APIRouter, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter
 
 router = APIRouter()
 
 
-@router.get("/api/profile")
-def profile():
-    return JSONResponse(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        content="Not implemented yet",
-    )
+@router.get("")
+async def profile() -> str:
+    return "ok"

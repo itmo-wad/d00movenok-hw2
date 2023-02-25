@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+import uuid
+
+from pydantic import BaseModel, BaseSettings, Field
 
 
 class LogConfig(BaseModel):
@@ -31,3 +33,19 @@ class LogConfig(BaseModel):
             "level": LOG_LEVEL,
         },
     }
+
+
+class AppConfig(BaseSettings):
+    mongo_user: str = Field(..., env="MONGO_USER")
+    mongo_pass: str = Field(..., env="MONGO_PASS")
+    mongo_host: str = Field(default="mongo", env="MONGO_HOST")
+    mongo_port: int = Field(default=27017, env="MONGO_PORT")
+    mongo_db: str = Field(default="admin", env="MONGO_DB")
+    mongo_min_conndection: int = Field(default=10, env="MONGO_MIN_CONNECTIONS")
+    mongo_max_conndection: int = Field(default=50, env="MONGO_MAX_CONNECTIONS")
+    secret: str = Field(default=uuid.uuid4().hex, env="APP_SECRET")
+    debug: bool = Field(default=False, env="DEBUG")
+
+
+log_config = LogConfig()
+app_config = AppConfig()

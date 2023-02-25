@@ -1,2 +1,4 @@
 fastapi[all]
 uvicorn[standard]
+motor
+argon2-cffi
