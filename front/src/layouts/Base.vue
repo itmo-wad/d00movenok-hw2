@@ -2,6 +2,7 @@
   import { storeToRefs } from 'pinia';
 
   import avatar from '@/assets/default_avatar.png';
+  import NotificationsList from '@/components/NotificationsList.vue';
   import { useAuth } from '@/store/auth';
 
   const authStore = useAuth();
@@ -42,19 +43,7 @@
       <v-container>
         <v-row>
           <v-col cols="2">
-            <v-sheet rounded="lg">
-              <v-list rounded="lg">
-                <v-list-item v-for="n in 5" :key="n" link>
-                  <v-list-item-title> List Item {{ n }} </v-list-item-title>
-                </v-list-item>
-
-                <v-divider class="my-2"></v-divider>
-
-                <v-list-item link color="grey-lighten-4">
-                  <v-list-item-title> Refresh </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-sheet>
+            <v-sheet rounded="lg"> <NotificationsList /> </v-sheet>
           </v-col>
 
           <v-col>

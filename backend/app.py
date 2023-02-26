@@ -4,6 +4,7 @@ from logging.config import dictConfig
 from config import app_config, log_config  # type: ignore
 from controller.errors.http_errors import http_error_handler  # type: ignore
 from controller.router import router as api_router  # type: ignore
+from controller.socketio import init_socketio  # type: ignore
 from db.mongo_utils import close_mongo_connection  # type: ignore
 from db.mongo_utils import connect_to_mongo
 from fastapi import FastAPI, HTTPException
@@ -24,15 +25,16 @@ def get_application() -> FastAPI:
     application.add_event_handler("shutdown", close_mongo_connection)
 
     application.include_router(api_router, prefix="/api")
+    init_socketio(application)
 
     return application
 
 
 app = get_application()
 
-logger.info("Open http://127.0.0.1:8000/docs to see Swagger API Documentation.")
+logger.info("Open http://127.0.0.1:5000/docs to see Swagger API Documentation.")
 
 if __name__ == "__main__":
     import uvicorn  # type: ignore
 
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=True)

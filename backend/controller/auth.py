@@ -1,6 +1,7 @@
 import logging
 
 from controller.middleware.auth import auth_required  # type: ignore
+from controller.socketio import socketio  # type: ignore
 from db.mongo import AsyncIOMotorClient, get_database  # type: ignore
 from fastapi import APIRouter, Depends, Request, status
 from fastapi.encoders import jsonable_encoder
@@ -49,6 +50,7 @@ async def signup(
         )
 
     user = await create_user(db, body.login, body.password)
+    await socketio.manager.emit("notify", body.login)
     logger.debug("Created new user: " + body.login)
     request.session["id"] = user.id
     return JSONResponse(

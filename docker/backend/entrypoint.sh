@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-uvicorn --host 0.0.0.0 --port 8000 --log-level debug app:app
+uvicorn --host 0.0.0.0 --port 5000 --log-level debug app:app
